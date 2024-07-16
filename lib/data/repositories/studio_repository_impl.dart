@@ -17,8 +17,8 @@ class StudioRepositoryImpl implements StudioRepository {
         'projection': 'studios-with-win-count',
       });
 
-      if (response['statusCode'] == 200) {
-        final List<dynamic> studiosJson = response['data']['studios'];
+      if (response.statusCode == 200) {
+        final List<dynamic> studiosJson = response.data['studios'];
         return Right(studiosJson.map((json) => StudioModel.fromJson(json).toEntity()).toList());
       } else {
         return Left(ServerFailure('Failed to load studios'));

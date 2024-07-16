@@ -17,9 +17,9 @@ class ProducerRepositoryImpl implements ProducerRepository {
         'projection': 'max-min-win-interval-for-producers',
       });
 
-      if (response['statusCode'] == 200) {
-        final List<dynamic> minProducersJson = response['data']['min'];
-        final List<dynamic> maxProducersJson = response['data']['max'];
+      if (response.statusCode == 200) {
+        final List<dynamic> minProducersJson = response.data['min'];
+        final List<dynamic> maxProducersJson = response.data['max'];
         final minProducers = minProducersJson.map((json) => ProducerModel.fromJson(json).toEntity()).toList();
         final maxProducers = maxProducersJson.map((json) => ProducerModel.fromJson(json).toEntity()).toList();
         return Right({

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
@@ -32,12 +33,11 @@ void main() {
   ];
 
   test('deve retornar uma lista de estúdios', () async {
-    when(mockHttpAdapter.get('/movies', queryParameters: {'projection': 'studios-with-win-count'})).thenAnswer((_) async => {
-          'statusCode': 200,
-          'data': {
-            'studios': tStudios.map((s) => StudioModel.fromEntity(s).toJson()).toList(),
-          },
-        });
+    when(mockHttpAdapter.get('/movies', queryParameters: {'projection': 'studios-with-win-count'}))
+        .thenAnswer((_) async => Response(data: {
+              'statusCode': 200,
+              'studios': tStudios.map((s) => StudioModel.fromEntity(s).toJson()).toList(),
+            }, requestOptions: RequestOptions(), statusCode: 200));
 
     final result = await repository.getStudios();
 

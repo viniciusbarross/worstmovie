@@ -22,8 +22,8 @@ class MovieRepositoryImpl implements MovieRepository {
         'year': year,
       });
 
-      if (response['statusCode'] == 200) {
-        return Right((response['data']['content'] as List).map((json) => MovieModel.fromJson(json).toEntity()).toList());
+      if (response.statusCode == 200) {
+        return Right((response.data['content'] as List).map((json) => MovieModel.fromJson(json).toEntity()).toList());
       } else {
         return Left(ServerFailure('Failed to load movies'));
       }
@@ -37,9 +37,9 @@ class MovieRepositoryImpl implements MovieRepository {
     try {
       final response = await apiClient.get('/movies?projection=years-with-multiple-winners');
 
-      if (response['statusCode'] == 200) {
+      if (response.statusCode == 200) {
         return Right(
-            (response['data']['years'] as List).map((json) => YearWithMultipleWinnersModel.fromJson(json).toEntity()).toList());
+            (response.data['years'] as List).map((json) => YearWithMultipleWinnersModel.fromJson(json).toEntity()).toList());
       } else {
         return Left(ServerFailure('Failed to load years with multiple winners'));
       }
@@ -56,8 +56,8 @@ class MovieRepositoryImpl implements MovieRepository {
         'winner': true,
       });
 
-      if (response['statusCode'] == 200) {
-        return Right((response['data'] as List).map((json) => MovieModel.fromJson(json).toEntity()).toList());
+      if (response.statusCode == 200) {
+        return Right((response.data as List).map((json) => MovieModel.fromJson(json).toEntity()).toList());
       } else {
         return Left(ServerFailure('Failed to load movies by year'));
       }

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
@@ -35,12 +38,8 @@ void main() {
 
   test('deve retornar uma lista de filmes', () async {
     when(mockHttpAdapter.get('/movies', queryParameters: anyNamed('queryParameters'))).thenAnswer((_) async {
-      return {
-        'statusCode': 200,
-        'data': {
-          'content': tMovies.map((m) => m.toJson()).toList(),
-        },
-      };
+      return Response(
+          data: {'content': tMovies.map((m) => m.toJson()).toList()}, requestOptions: RequestOptions(), statusCode: 200);
     });
 
     final result = await repository.getMovies(1, 10);
@@ -52,10 +51,9 @@ void main() {
     when(mockHttpAdapter.get('/movies', queryParameters: {
       'year': tYear,
       'winner': true,
-    })).thenAnswer((_) async => {
-          'statusCode': 200,
-          'data': tMovies.map((m) => m.toJson()).toList(),
-        });
+    })).thenAnswer(
+      (_) async => Response(data: tMovies.map((m) => m.toJson()).toList(), requestOptions: RequestOptions(), statusCode: 200),
+    );
 
     final result = await repository.getMoviesByYear(tYear);
 
@@ -83,12 +81,10 @@ void main() {
     ];
 
     when(mockHttpAdapter.get('/movies?projection=years-with-multiple-winners')).thenAnswer((_) async {
-      return {
-        'statusCode': 200,
-        'data': {
-          'years': tYearsWithMultipleWinners.map((m) => m.toJson()).toList(),
-        },
-      };
+      return Response(
+          data: {'years': tYearsWithMultipleWinners.map((m) => m.toJson()).toList()},
+          requestOptions: RequestOptions(),
+          statusCode: 200);
     });
 
     final result = await repository.getYearsWithMultipleWinners();

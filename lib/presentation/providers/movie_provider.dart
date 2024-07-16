@@ -31,7 +31,6 @@ class MovieProvider extends ChangeNotifier {
   Future<void> fetchMovies(int page, int size, {bool? winner, int? year}) async {
     _isLoading = true;
     _failure = null;
-    notifyListeners();
 
     final result = await getMovies(page, size, winner: winner, year: year);
 

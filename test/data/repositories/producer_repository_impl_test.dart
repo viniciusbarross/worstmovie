@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
@@ -40,13 +41,10 @@ void main() {
 
   test('deve retornar um mapa de produtores com intervalos mínimos e máximos', () async {
     when(mockHttpAdapter.get('/movies', queryParameters: {'projection': 'max-min-win-interval-for-producers'}))
-        .thenAnswer((_) async => {
-              'statusCode': 200,
-              'data': {
-                'min': tMinProducers.map((p) => ProducerModel.fromEntity(p).toJson()).toList(),
-                'max': tMaxProducers.map((p) => ProducerModel.fromEntity(p).toJson()).toList(),
-              },
-            });
+        .thenAnswer((_) async => Response(data: {
+              'min': tMinProducers.map((p) => ProducerModel.fromEntity(p).toJson()).toList(),
+              'max': tMaxProducers.map((p) => ProducerModel.fromEntity(p).toJson()).toList(),
+            }, requestOptions: RequestOptions(), statusCode: 200));
 
     final result = await repository.getProducers();
 
